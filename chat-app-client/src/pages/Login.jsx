@@ -20,24 +20,25 @@ const Login = () => {
         action=""
         className="border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg"
       >
-        <h2 className="font-medium text-2xl flex justify-baseline items-center">
-          {currState}
-        </h2>
-        <img src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" />
+        <div className="flex justify-between mb-4">
+          <h2 className="font-medium text-2xl flex justify-between items-center">
+            {currState}
+          </h2>
+          <img src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" />
+        </div>
 
-        {currState === "sign up" &&
-          !isDataSubmited(
-            <input
-              onChange={(e) => setFullName(e.target.value)}
-              value={fullName}
-              type="text"
-              className="p-2 border border-gray-500 rounded-md focus:outline-none "
-              placeholder="Full Name"
-              required
-            />
-          )}
+        {currState === "sign up" && !isDataSubmited && (
+          <input
+            onChange={(e) => setFullName(e.target.value)}
+            value={fullName}
+            type="text"
+            className="p-2 border border-gray-500 rounded-md focus:outline-none "
+            placeholder="Full Name"
+            required
+          />
+        )}
 
-        {isDataSubmited && (
+        {!isDataSubmited && (
           <>
             <input
               onChange={(e) => setEmail(e.target.value)}
@@ -79,6 +80,36 @@ const Login = () => {
         <div>
           <input type="checkbox" />
           <p> Agree to the terms of use & privacy policy</p>
+        </div>
+        {/* navigate */}
+        <div className=" flex flex-col gap-2">
+          {currState === "sign up" ? (
+            <p className=" text-sm text-gray-600 ">
+              {" "}
+              Already have an acount?{" "}
+              <span
+                onClick={() => {
+                  setCurrState("Login");
+                  setIsDataSubmited(false);
+                }}
+                className=" cursor-pointer font-medium text-violet-400"
+              >
+                Login here
+              </span>{" "}
+            </p>
+          ) : (
+            <p className="text-sm text-gray-600 ">
+              {" "}
+              Create an account{" "}
+              <span
+                onClick={() => setCurrState("sign up")}
+                className="cursor-pointer font-medium text-violet-400"
+              >
+                {" "}
+                click here
+              </span>{" "}
+            </p>
+          )}
         </div>
       </form>
     </div>
