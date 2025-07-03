@@ -8,6 +8,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
   const [isDataSubmited, setIsDataSubmited] = useState(false);
+  
+   const onSubmiteHandeler = (e) =>{
+    e.preventDefault();
+
+    if(currState === 'sign up' && !isDataSubmited){
+      setIsDataSubmited(true)
+      return
+    }
+
+   }
+
+   
 
   return (
     <div className="min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl">
@@ -16,16 +28,18 @@ const Login = () => {
 
       {/* right site ******* */}
 
-      <form
+      <form onSubmit={onSubmiteHandeler}
         action=""
         className="border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg"
       >
-        <div className="flex justify-between mb-4">
+        
           <h2 className="font-medium text-2xl flex justify-between items-center">
             {currState}
+            {isDataSubmited &&  <img onClick={()=>setIsDataSubmited(false)}
+             src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" />}
           </h2>
-          <img src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" />
-        </div>
+         
+        
 
         {currState === "sign up" && !isDataSubmited && (
           <input
@@ -52,7 +66,7 @@ const Login = () => {
             <input
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              type="email"
+              type="password"
               placeholder="Enter Your Password"
               required
               className="p-2 border border-gray-500 rounded-md focus:outline-none focus:right-3 focus:ring-indigo-500"
@@ -77,7 +91,7 @@ const Login = () => {
           {currState === "sign up" ? "Create Account" : "Login Now"}
         </button>
 
-        <div>
+        <div className="flex justify-between gap-3">
           <input type="checkbox" />
           <p> Agree to the terms of use & privacy policy</p>
         </div>
@@ -85,8 +99,8 @@ const Login = () => {
         <div className=" flex flex-col gap-2">
           {currState === "sign up" ? (
             <p className=" text-sm text-gray-600 ">
-              {" "}
-              Already have an acount?{" "}
+              
+              Already have an acount?
               <span
                 onClick={() => {
                   setCurrState("Login");
@@ -95,19 +109,17 @@ const Login = () => {
                 className=" cursor-pointer font-medium text-violet-400"
               >
                 Login here
-              </span>{" "}
+              </span>
             </p>
           ) : (
             <p className="text-sm text-gray-600 ">
-              {" "}
-              Create an account{" "}
+              Create an account
               <span
                 onClick={() => setCurrState("sign up")}
                 className="cursor-pointer font-medium text-violet-400"
               >
-                {" "}
                 click here
-              </span>{" "}
+              </span>
             </p>
           )}
         </div>
