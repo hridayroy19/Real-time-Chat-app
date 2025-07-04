@@ -1,5 +1,5 @@
 import express from "express";
-import { login, Signup, updateProfile } from "../controller/userController.js";
+import { checkAuth, login, Signup, updateProfile } from "../controller/userController.js";
 import { protectRoute } from "../meddilware/auth.js";
 
 const userRouter = express.Router();
@@ -9,5 +9,6 @@ userRouter.post("/login", login);
 
 // Protected routes (require authentication)
 userRouter.put("/update-profile", protectRoute, updateProfile);
+userRouter.put("/check", protectRoute, checkAuth);
 
 export default userRouter;
