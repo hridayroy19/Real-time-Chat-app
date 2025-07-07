@@ -1,16 +1,14 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
-import http, { Server } from "http";
 import { connectDB } from "./lib/db.js";
 import userRouter from "./router/routes.js";
-
-import { server } from "socket.io";
+import http from "http";
+import { Server } from "socket.io"; 
 
 // create express app and HTTP server
 const app = express();
-const server = http.createServer(app);
-
+const server = http.createServer(app)
 // meddileware setup
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
@@ -24,7 +22,7 @@ export const userSoketMap = {};
 
 // socket.io connaction handeler
 
-io.on("connaction", (socket) => {
+io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   console.log("user connaction ", userId);
 
@@ -39,7 +37,7 @@ io.on("connaction", (socket) => {
   });
 });
 
-app.use("/", (req, res) => res.send("server is live"));
+app.use("/state", (req, res) => res.send("server is live"));
 app.use("/user/auth", userRouter);
 
 await connectDB();

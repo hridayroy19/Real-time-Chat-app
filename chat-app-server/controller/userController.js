@@ -4,6 +4,7 @@ import { generateToken } from "../lib/util.js";
 
 export const Signup = async (req, res) => {
   const { fullName, email, password, bio } = req.body;
+  console.log(req.body)
 
   try {
     if (!fullName || !email || !password) {
@@ -58,39 +59,49 @@ export const Signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password)
-      return res
-        .status(400)
-        .json({ success: false, message: "Email and password required" });
 
     const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+
+    // User not found
+    if (!user) {
       return res
-        .status(401)
-        .json({ success: false, message: "Invalid credentials" });
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    const isPasswordCurrect = await bcrypt.compare(process.env.JWT_SECRET);
-    if (!isPasswordCurrect) {
+    // Password mismatch
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid Password" });
     }
-    const token = generateToken(newUser._id);
-    return res
-      .status(201)
-      .json({ success: true, token, message: "User Login successfully" });
+
+    // Generate token
+    const token = generateToken(user._id);
+
+    // Return user (safe fields only)
+    return res.status(200).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        bio: user.bio,
+      },
+      message: "User login successful",
+    });
+
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        userData: newUser,
-        token,
-        message: "Server error",
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
+
+
 
 export const checkAuth = (req , res)=>{
   res.json({success:true , user:req.user})

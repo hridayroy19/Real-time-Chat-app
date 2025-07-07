@@ -9,6 +9,6 @@ userRouter.post("/login", login);
 
 // Protected routes (require authentication)
 userRouter.put("/update-profile", protectRoute, updateProfile);
-userRouter.put("/check", protectRoute, checkAuth);
+userRouter.get("/check", protectRoute, checkAuth);
 
 export default userRouter;

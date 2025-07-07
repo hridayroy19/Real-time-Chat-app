@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import assets from "../assets/assets";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [currState, setCurrState] = useState("sign up");
@@ -9,6 +10,9 @@ const Login = () => {
   const [bio, setBio] = useState("");
   const [isDataSubmited, setIsDataSubmited] = useState(false);
   
+  const {login} = useContext(AuthContext)
+
+
    const onSubmiteHandeler = (e) =>{
     e.preventDefault();
 
@@ -16,7 +20,9 @@ const Login = () => {
       setIsDataSubmited(true)
       return
     }
-
+    login(currState === 'sign up' ? 'signup' : 'login',{
+      fullName, email,password,bio
+    } )
    }
 
    
@@ -103,7 +109,7 @@ const Login = () => {
               Already have an acount?
               <span
                 onClick={() => {
-                  setCurrState("Login");
+                  setCurrState("login");
                   setIsDataSubmited(false);
                 }}
                 className=" cursor-pointer font-medium text-violet-400"
