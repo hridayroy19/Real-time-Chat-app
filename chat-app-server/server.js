@@ -5,6 +5,7 @@ import { connectDB } from "./lib/db.js";
 import userRouter from "./router/routes.js";
 import http from "http";
 import { Server } from "socket.io"; 
+import messageRouter from "./router/messageRoute.js";
 
 // create express app and HTTP server
 const app = express();
@@ -18,27 +19,27 @@ export const io = new Server(server, {
   cors: { origin: "*" },
 });
 // store online user
-export const userSoketMap = {};
-
+export const userSocketMap = {};
 // socket.io connaction handeler
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   console.log("user connaction ", userId);
 
-  if (userId) userSoketMap[userId] = socket.id;
+  if (userId) userSocketMap[userId] = socket.id;
 
   // emit online user to all connaction clients
-  io.emit("getOnlineUsers", Object.keys(userSoketMap));
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
   socket.on("disconnect", () => {
     console.log("user disconnect", userId);
-    delete userSoketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSoketMap));
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
 
 app.use("/state", (req, res) => res.send("server is live"));
 app.use("/user/auth", userRouter);
+app.use("/api/message", messageRouter);
 
 await connectDB();
 
