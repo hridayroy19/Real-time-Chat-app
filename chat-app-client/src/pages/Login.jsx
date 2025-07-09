@@ -9,43 +9,51 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
   const [isDataSubmited, setIsDataSubmited] = useState(false);
-  
-  const {login} = useContext(AuthContext)
 
+  const { login } = useContext(AuthContext);
 
-   const onSubmiteHandeler = (e) =>{
+  const onSubmiteHandeler = (e) => {
     e.preventDefault();
 
-    if(currState === 'sign up' && !isDataSubmited){
-      setIsDataSubmited(true)
-      return
+    if (currState === "sign up" && !isDataSubmited) {
+      setIsDataSubmited(true);
+      return;
     }
-    login(currState === 'sign up' ? 'signup' : 'login',{
-      fullName, email,password,bio
-    } )
-   }
-
-   
+    login(currState === "sign up" ? "signup" : "login", {
+      fullName,
+      email,
+      password,
+      bio,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl">
       {/* **** left site********* */}
-      <img src={assets.logo_big} alt="" className="w-[min(30vw ,220px)] " />
+      <img
+        src="https://i.ibb.co/yF5Yt2zN/unnamed-removebg-preview.png"
+        alt=""
+        className="lg:w-[420px] md:w-[280px] w-full px-5 "
+      />
 
       {/* right site ******* */}
 
-      <form onSubmit={onSubmiteHandeler}
+      <form
+        onSubmit={onSubmiteHandeler}
         action=""
         className="border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg"
       >
-        
-          <h2 className="font-medium text-2xl flex justify-between items-center">
-            {currState}
-            {isDataSubmited &&  <img onClick={()=>setIsDataSubmited(false)}
-             src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" />}
-          </h2>
-         
-        
+        <h2 className="font-medium text-2xl flex justify-between items-center">
+          {currState}
+          {isDataSubmited && (
+            <img
+              onClick={() => setIsDataSubmited(false)}
+              src={assets.arrow_icon}
+              alt=""
+              className="w-5 cursor-pointer"
+            />
+          )}
+        </h2>
 
         {currState === "sign up" && !isDataSubmited && (
           <input
@@ -105,7 +113,6 @@ const Login = () => {
         <div className=" flex flex-col gap-2">
           {currState === "sign up" ? (
             <p className=" text-sm text-gray-600 ">
-              
               Already have an acount?
               <span
                 onClick={() => {

@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     getUsers();
-  }, [onlineUser]);
+  }, [onlineUser, getUsers]);
 
   return (
     <div
@@ -46,7 +46,7 @@ const Sidebar = () => {
             />
             <div className="absolute top-full right-0 z-20 w-32 p-5 rounded-md bg-[#282142] border border-gray-600 text-gray-100 hidden group-hover:block">
               <p
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate("/porfile")}
                 className="cursor-pointer text-sm"
               >
                 Edit Profile
@@ -78,14 +78,16 @@ const Sidebar = () => {
           const name = user.fullName || user.name || "Unknown";
 
           return (
-           <div
-  key={user._id}
-  onClick={() => {setSelectedUser(user);setUnseenMessage(prev => ({...prev,[user._id]: 0}))}}
-  className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${
-    selectedUser?._id === user._id ? "bg-[#282142]/50" : ""
-  }`}
->
-
+            <div
+              key={user._id}
+              onClick={() => {
+                setSelectedUser(user);
+                setUnseenMessage((prev) => ({ ...prev, [user._id]: 0 }));
+              }}
+              className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${
+                selectedUser?._id === user._id ? "bg-[#282142]/50" : ""
+              }`}
+            >
               <img
                 src={user.profilePic || assets.avatar_icon}
                 alt="profilePic"

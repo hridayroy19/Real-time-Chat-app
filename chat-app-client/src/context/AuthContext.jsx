@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [authuser, setAuthuser] = useState(null);
   const [onlineUser, setOnlineUse] = useState([]);
   const [socket, setSocket] = useState(null);
-
+const [loading, setLoading] = useState(true);
   const checkAuth = async () => {
     try {
       const { data } = await axios.get("/user/auth/check");
@@ -25,6 +25,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    }
+    finally{
+setLoading(false)
     }
   };
 
@@ -97,6 +100,7 @@ export const AuthProvider = ({ children }) => {
     authuser,
     onlineUser,
     socket,
+    loading,
     login,
     logout,
     checkAuth,
