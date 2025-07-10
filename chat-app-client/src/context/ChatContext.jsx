@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
@@ -13,7 +14,7 @@ export const ChatProvider = ({ children }) => {
 
   const { axios, socket } = useContext(AuthContext);
 
-  // ✅ Get all users for sidebar
+  //  Get all users for sidebar
   const getUsers = async () => {
     try {
       const { data } = await axios.get("/api/message/getusers");
@@ -26,7 +27,7 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  // ✅ Get messages between logged-in user and selected user
+  // Get messages between logged-in user and selected user
   const getMessages = async (userId) => {
     try {
       const { data } = await axios.get(`/api/message/${userId}`);
@@ -38,13 +39,13 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  // ✅ Send message to selected user
+  // Send message to selected user
   const sendMessages = async (messageData) => {
     try {
       const { data } = await axios.post(`/api/message/send/${selectedUser._id}`, messageData);
       console.log(data, "message");
       if (data.success) {
-        setMessage((prevMessages) => [...prevMessages, data.data]); // 🔁 use correct response key
+        setMessage((prevMessages) => [...prevMessages, data.data]); 
       } else {
         toast.error(data.message);
       }
@@ -53,7 +54,6 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  // ✅ Real-time incoming message listener
   const subscribeToMessages = () => {
     if (!socket) return;
 
@@ -61,7 +61,7 @@ export const ChatProvider = ({ children }) => {
       if (selectedUser && newMessage.senderId === selectedUser._id) {
         newMessage.seen = true;
         setMessage((prevMessages) => [...prevMessages, newMessage]);
-        axios.put(`/api/message/mark/${newMessage._id}`); // ✅ fixed endpoint
+        axios.put(`/api/message/mark/${newMessage._id}`); 
       } else {
         setUnseenMessage((prevUnseen) => ({
           ...prevUnseen,
@@ -73,7 +73,7 @@ export const ChatProvider = ({ children }) => {
     });
   };
 
-  // ✅ Remove real-time listener
+  // Remove real-time listener
   const unSubscribeFromMessages = () => {
     if (socket) socket.off("newMessage");
   };

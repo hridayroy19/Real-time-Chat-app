@@ -1,6 +1,7 @@
 import { io, userSocketMap } from "../server.js";
  import { Message } from "../model/message.js";
 import User from "../model/user.js";
+import cloudinary from '.././lib/cloudinary.js'
 // Get all users except the logged in user
 export const getUsersForSidebar = async (req, res) => {
   try {
@@ -101,12 +102,12 @@ export const sendMessage = async (req, res) => {
     const { text, image } = req.body;
     const receiverId = req.params.id;
     const senderId = req.user._id;
-console.log(req.body,'body')
+   console.log(req.body,'body imagee')
     let imageUrl = null;
 
     // Upload image if present
     if (image) {
-      const uploadResponse = await cloudinary.uploader.upload(image);
+      const uploadResponse = await cloudinary.uploader.upload(req.body.image,);
       imageUrl = uploadResponse.secure_url;
     }
 

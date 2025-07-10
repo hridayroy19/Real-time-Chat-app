@@ -4,17 +4,13 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
-import Loading from "./component/Loading";
 
 const App = () => {
-  const { authuser ,loading } = useContext(AuthContext);
+  const { authuser } = useContext(AuthContext);
 
-  if (loading) {
-    return <Loading/>;
-  }
   return (
     <>
-      <div className="bg-[url('./src/assets/bgImage.svg')] bg-cover ">
+      <div className="bg-[url('/bgImage.svg')] bg-cover ">
         <Routes>
           <Route
             path="/"
@@ -24,10 +20,7 @@ const App = () => {
             path="/login"
             element={!authuser ? <Login /> : <Navigate to="/" />}
           />
-          <Route
-            path="/porfile"
-            element={<Profile />}
-          />
+          <Route path="/porfile" element={<Profile />} />
         </Routes>
       </div>
     </>

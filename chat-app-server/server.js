@@ -4,15 +4,21 @@ import cors from "cors";
 import { connectDB } from "./lib/db.js";
 import userRouter from "./router/routes.js";
 import http from "http";
-import { Server } from "socket.io"; 
+import { Server } from "socket.io";
 import messageRouter from "./router/messageRoute.js";
 
 // create express app and HTTP server
 const app = express();
-const server = http.createServer(app)
+const server = http.createServer(app);
 // meddileware setup
 app.use(express.json({ limit: "4mb" }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://chat-app-client-three-xi.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 // initialize soket.io server
 export const io = new Server(server, {
@@ -43,6 +49,11 @@ app.use("/api/message", messageRouter);
 
 await connectDB();
 
-const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () =>
+    console.log("server site is runnign on PORT", +PORT)
+  );
+}
 
-server.listen(PORT, () => console.log("server site is runnign on PORT", +PORT));
+export default server;

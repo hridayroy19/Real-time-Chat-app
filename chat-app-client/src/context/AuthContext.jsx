@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
   const [authuser, setAuthuser] = useState(null);
   const [onlineUser, setOnlineUse] = useState([]);
   const [socket, setSocket] = useState(null);
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
   const checkAuth = async () => {
     try {
       const { data } = await axios.get("/user/auth/check");
@@ -25,15 +26,16 @@ const [loading, setLoading] = useState(true);
       }
     } catch (error) {
       toast.error(error.message);
-    }
-    finally{
-setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   const login = async (state, credentials) => {
     try {
-      const { data } = await axios.post(`/user/auth/${state}`, credentials);
+      const { data } = await axios.post(`/user/auth/${state}`, credentials,{
+         withCredentials: true,
+      });
 
       console.log("API response data:", data);
       if (data.success) {
