@@ -4,9 +4,11 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import Register from "./pages/register";
 
 const App = () => {
   const { authuser } = useContext(AuthContext);
+  // console.log(authuser, "my data");
 
   return (
     <>
@@ -20,6 +22,8 @@ const App = () => {
             path="/login"
             element={!authuser ? <Login /> : <Navigate to="/" />}
           />
+          <Route path="/register" element={<Register />} />
+
           <Route path="/porfile" element={<Profile />} />
         </Routes>
       </div>

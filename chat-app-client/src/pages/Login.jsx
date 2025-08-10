@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import assets from "../assets/assets";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [currState, setCurrState] = useState("sign up");
+  const [currState, setCurrState] = useState("login");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -127,12 +128,12 @@ const Login = () => {
           ) : (
             <p className="text-sm text-gray-600 ">
               Create an account
-              <span
-                onClick={() => setCurrState("sign up")}
+             <Link to='/register'> <span
                 className="cursor-pointer font-medium text-violet-400"
               >
                 click here
               </span>
+              </Link>
             </p>
           )}
         </div>

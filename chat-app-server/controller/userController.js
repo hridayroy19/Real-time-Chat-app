@@ -3,11 +3,13 @@ import User from "../model/user.js";
 import { generateToken } from "../lib/util.js";
 
 export const Signup = async (req, res) => {
-  const { fullName, email, password, bio } = req.body;
-  console.log(req.body)
+  
+  const { fullName, email, password, bio , agree
+ } = req.body;
+  console.log(req.body ,"dataaaaaaa")
 
   try {
-    if (!fullName || !email || !password) {
+    if (!fullName || !email || !password || !agree) {
       return res.status(400).json({
         success: false,
         message: "Full name, email and password are required",

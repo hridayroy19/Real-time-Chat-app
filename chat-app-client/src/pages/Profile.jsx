@@ -1,11 +1,16 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 const Profile = () => {
+  const { authuser } = useContext(AuthContext);
+  console.log(authuser);
   return (
     <div className="min-h-screen  flex items-center justify-center px-4">
       <div className="flex flex-col lg:flex-row items-center gap-8 max-w-4xl w-full">
         {/* Image */}
         <div className="flex-shrink-0">
           <img
-            src="https://i.ibb.co/6byJgXB/sample-woman.jpg"
+            src=""
             alt="Profile"
             className="w-60 h-60 object-cover rounded-full border-4 border-gray-300"
           />
@@ -13,13 +18,16 @@ const Profile = () => {
 
         {/* Text Content */}
         <div className="text-center lg:text-left space-y-4">
-          <h1 className="text-4xl font-bold text-white">Hello</h1>
+          <h1 className="text-4xl font-bold text-white">
+            {" "}
+            {authuser.fullName}{" "}
+          </h1>
           <div>
-            <h2 className="text-lg font-semibold text-white">A Bit About Me</h2>
+            <h2 className="text-lg font-semibold text-white">
+              {authuser.email}
+            </h2>
             <p className="text-white max-w-md mx-auto lg:mx-0">
-              I'm a paragraph. Click here to add your own text and edit me. I’m
-              a great place for you to tell a story and let your users know a
-              little more about you.
+              {authuser.bio}
             </p>
           </div>
 

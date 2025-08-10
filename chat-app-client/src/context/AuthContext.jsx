@@ -5,9 +5,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = backendUrl;
 
+// console.log(backendUrl,"urllll get")
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -33,12 +34,10 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (state, credentials) => {
     try {
-      const { data } = await axios.post(`/user/auth/${state}`, credentials,{
-         withCredentials: true,
-      });
-
-      console.log("API response data:", data);
-      if (data.success) {
+      const { data}  = await axios.post(`/user/auth/${state}`, credentials);
+       console.log("API response data:", data);
+       if (data.success) {
+      
         setAuthuser(data.user);
         ConnectSocket(data.user);
 
